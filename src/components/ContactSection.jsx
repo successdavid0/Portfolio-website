@@ -1,15 +1,15 @@
-import { Discord, Telegram, Mail, MapPin, Phone, Send, Twitter } from "lucide-react";
+import { Instagram, LinkedIn, Mail, MapPin, Phone, Send, Twitter } from "lucide-react";
 import {cn} from "@/lib/utils";
 
 export const ContactSection = () => {
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
+    // const handleSubmit = (e) => {
+    //     e.preventDefault()
 
-        setTimeout(()=>{
+    //     setTimeout(()=>{
 
-        }, 1500)
-    }
+    //     }, 1500)
+    // }
 
     return(
         <section id="contact" className="py-24 px-4 relative bg-secondary/30">
@@ -84,10 +84,10 @@ export const ContactSection = () => {
                                     <Twitter/>
                                 </a>
                                 <a href="https://discord.com/invite/6ZPaavHx" target="_blank">
-                                    <Discord/>
+                                    <LinkedIn />
                                 </a>
                                 <a href="https://t.me/chil_Snowman" target="_blank">
-                                    <Telegram/>
+                                    <Instagram />
                                 </a>
                             </div>
                         </div>
