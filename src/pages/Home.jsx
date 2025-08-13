@@ -1,7 +1,7 @@
 import { ThemeToggle } from "./components/ThemeToggle";
-import { StarBackground } from "./components/Starbackground";
+import { StarBackground } from "./components/StarBackground";
 import { Navbar } from "./components/Navbar";
-import { HeroSection } from "./components/Herosection"; 
+import { HeroSection } from "./components/HeroSection"; 
 import { About } from "./components/AboutSection";
 import { Skills } from "./components/SkillsSection";
 import { ProjectSection } from "./components/ProjectsSection";
