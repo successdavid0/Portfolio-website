@@ -1,4 +1,4 @@
-import { Instagram, LinkedIn, Mail, MapPin, Phone, Send, Twitter } from "lucide-react";
+import { Instagram, Linkedin, Mail, MapPin, Phone, Send, Twitter } from "lucide-react";
 import {cn} from "@/lib/utils";
 
 export const ContactSection = () => {
@@ -15,7 +15,7 @@ export const ContactSection = () => {
         <section id="contact" className="py-24 px-4 relative bg-secondary/30">
             <div className="container mx-auto max-w-5xl">
                 <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">
-                Get In <span className="text-primary">Touch</span>
+                Get In <span className="text-primary">Touch with Me</span>
             </h2>
 
             <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
@@ -84,7 +84,7 @@ export const ContactSection = () => {
                                     <Twitter/>
                                 </a>
                                 <a href="https://discord.com/invite/6ZPaavHx" target="_blank">
-                                    <LinkedIn />
+                                    <Linkedin />
                                 </a>
                                 <a href="https://t.me/chil_Snowman" target="_blank">
                                     <Instagram />
