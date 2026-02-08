@@ -9,7 +9,7 @@ const experiences = [
         period: "January 2024 – Present",
         icon: Network,
         highlights: [
-            "99.7% uptime achievement",
+            "90.7% uptime achievement",
             "35% latency reduction",
             "24/7 on-call support"
         ]
@@ -21,7 +21,7 @@ const experiences = [
         period: "March 2023 – December 2023",
         icon: Network,
         highlights: [
-            "50+ enterprise clients",
+            "30+ enterprise clients",
             "99.9% service availability",
             "Zero downtime migrations"
         ]
@@ -33,7 +33,7 @@ const experiences = [
         period: "April 2022 – August 2022",
         icon: Code,
         highlights: [
-            "1,000+ concurrent users",
+            "100+ concurrent users",
             "40% downtime reduction",
             "Telegram & Discord bots"
         ]
@@ -72,7 +72,6 @@ export const About = () => {
         <section id="about" className="py-16 sm:py-20 md:py-24 px-4 sm:px-6 md:px-8 relative overflow-hidden">
             {/* Background Accent */}
             <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/10 to-background" />
-            
             <div className="container mx-auto max-w-7xl relative z-10">
                 {/* Section Header */}
                 <motion.div
@@ -109,11 +108,11 @@ export const About = () => {
                         </div>
 
                         <p className="text-muted-foreground text-lg leading-relaxed">
-                            I'm a <span className="text-foreground font-semibold">results-driven Full-Stack Developer</span> with <span className="text-primary font-semibold">4+ years of experience</span> building responsive, user-centric applications that scale.
+                            I'm a <span className="text-foreground font-semibold">results-driven Full-Stack Developer</span> with <span className="text-primary font-semibold">6+ years of experience</span> building responsive, user-centric applications that scale.
                         </p>
 
                         <p className="text-muted-foreground leading-relaxed">
-                            My journey spans from <span className="text-foreground font-semibold">network engineering</span> at European tech companies to <span className="text-foreground font-semibold">full-stack development</span> for government security applications. I've designed systems that maintain <span className="text-primary font-semibold">99.7% uptime</span>, reduced network latency by <span className="text-primary font-semibold">35%</span>, and built bots serving <span className="text-primary font-semibold">thousands of users daily</span>.
+                            My journey spans from <span className="text-foreground font-semibold">network engineering</span> at European tech companies to <span className="text-foreground font-semibold">full-stack development</span> for government security applications. I've designed systems that maintain <span className="text-primary font-semibold">90.7% uptime</span>, reduced network latency by <span className="text-primary font-semibold">35%</span>, and built bots serving <span className="text-primary font-semibold">thousands of users daily</span>.
                         </p>
 
                         <p className="text-muted-foreground leading-relaxed">
@@ -229,9 +228,9 @@ export const About = () => {
                 >
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                         {[
-                            { icon: Award, label: "Years Experience", value: "4+" },
-                            { icon: Users, label: "Clients Served", value: "50+" },
-                            { icon: Code, label: "Projects Completed", value: "100+" },
+                            { icon: Award, label: "Years Experience", value: "6+" },
+                            { icon: Users, label: "Clients Served", value: "25+" },
+                            { icon: Code, label: "Projects Completed", value: "30+" },
                             { icon: TrendingUp, label: "Success Rate", value: "99%" }
                         ].map((stat, index) => (
                             <motion.div

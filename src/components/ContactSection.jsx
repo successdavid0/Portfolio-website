@@ -42,8 +42,8 @@ export const ContactSection = () => {
         {
             icon: Globe,
             title: "Portfolio",
-            value: "portfolio-website-dp7p.vercel.app",
-            href: "http://portfolio-website-dp7p.vercel.app/",
+            value: "portfolio-website.vercel.app",
+            href: "https://portfolio-website-xby4.vercel.app/",
             color: "from-rose-500 to-red-500"
         }
     ];

@@ -12,7 +12,6 @@ const roles = [
 
 export const HeroSection = () =>{
     const [roleIndex, setRoleIndex] = useState(0)
-
     useEffect(() => {
         const interval = setInterval(() => {
             setRoleIndex((prev) => (prev + 1) % roles.length)
@@ -99,7 +98,7 @@ export const HeroSection = () =>{
                     >
                         Building scalable web applications, secure network infrastructures, and intelligent bots.
                         <br className="hidden md:block" />
-                        <span className="text-foreground font-semibold">4+ years</span> of transforming complex challenges into elegant solutions.
+                        <span className="text-foreground font-semibold">6+ years</span> of transforming complex challenges into elegant solutions.
                     </motion.p>
 
                     {/* CTAs */}
@@ -129,10 +128,10 @@ export const HeroSection = () =>{
                         transition={{ delay: 1.2 }}
                     >
                         {[
-                            { icon: Code2, label: "Projects Delivered", value: "50+" },
-                            { icon: Network, label: "Uptime Achievement", value: "99.7%" },
-                            { icon: Bot, label: "Bots Deployed", value: "15+" },
-                            { icon: Code2, label: "Technologies", value: "20+" }
+                            { icon: Code2, label: "Projects Delivered", value: "27+" },
+                            { icon: Network, label: "Uptime Achievement", value: "90.7%" },
+                            { icon: Bot, label: "Bots Deployed", value: "7+" },
+                            { icon: Code2, label: "Technologies", value: "10+" }
                         ].map((stat, index) => (
                             <motion.div
                                 key={index}
@@ -149,14 +148,7 @@ export const HeroSection = () =>{
             </div>
 
             {/* Scroll Indicator */}
-            <motion.div 
-                className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center cursor-pointer"
-                animate={{ y: [0, 10, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
-            >
-                <span className="text-sm text-muted-foreground mb-2">Scroll to explore</span>
-                <ArrowDown className="h-5 w-5 text-primary"/>
-            </motion.div>
+            
         </section>
     )
 }

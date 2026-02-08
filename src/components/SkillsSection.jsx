@@ -11,7 +11,6 @@ const skills = [
     { name: "Next.js", level: 85, category: "frontend", years: 3, icon: "▲" },
     { name: "TypeScript", level: 80, category: "frontend", years: 2, icon: "📘" },
     { name: "Tailwind CSS", level: 95, category: "frontend", years: 3, icon: "🎯" },
-    { name: "Vue.js", level: 70, category: "frontend", years: 2, icon: "💚" },
     
     // Backend
     { name: "Python", level: 95, category: "backend", years: 5, icon: "🐍" },
@@ -24,28 +23,22 @@ const skills = [
     // Databases
     { name: "PostgreSQL", level: 85, category: "database", years: 4, icon: "🐘" },
     { name: "MongoDB", level: 80, category: "database", years: 3, icon: "🍃" },
-    { name: "Redis", level: 75, category: "database", years: 2, icon: "📦" },
     { name: "MySQL", level: 80, category: "database", years: 3, icon: "🐬" },
     
     // Network & Cloud
     { name: "AWS (VPC, EC2, S3)", level: 85, category: "networking", years: 3, icon: "☁️" },
-    { name: "Azure", level: 80, category: "networking", years: 2, icon: "☁️" },
     { name: "Docker", level: 85, category: "networking", years: 3, icon: "🐳" },
-    { name: "Kubernetes", level: 70, category: "networking", years: 2, icon: "⚓" },
-    { name: "VPN/Firewalls", level: 90, category: "networking", years: 4, icon: "🔒" },
-    { name: "Network Security", level: 88, category: "networking", years: 4, icon: "🛡️" },
+    { name: "VPN/Firewalls", level: 65, category: "networking", years: 4, icon: "🔒" },
+    { name: "Network Security", level: 80, category: "networking", years: 4, icon: "🛡️" },
     
     // Bot Development
     { name: "Telegram Bots", level: 95, category: "bots", years: 4, icon: "✈️" },
     { name: "Discord Bots", level: 90, category: "bots", years: 3, icon: "🎮" },
     { name: "Trading Bots", level: 85, category: "bots", years: 2, icon: "📈" },
-    { name: "Web Scraping", level: 88, category: "bots", years: 3, icon: "🕷️" },
     
     // Tools & DevOps
     { name: "Git/GitHub", level: 95, category: "tools", years: 5, icon: "🔀" },
-    { name: "CI/CD Pipelines", level: 80, category: "tools", years: 3, icon: "🔄" },
-    { name: "Terraform", level: 75, category: "tools", years: 2, icon: "🏗️" },
-    { name: "Prometheus/Grafana", level: 78, category: "tools", years: 2, icon: "📊" },
+    { name: "CI/CD Pipelines", level: 65, category: "tools", years: 3, icon: "🔄" },
     { name: "VS Code", level: 95, category: "tools", years: 5, icon: "💻" },
 ];
 
@@ -86,7 +79,7 @@ export const Skills = () => {
                         Technical <span className="text-glow text-primary">Expertise</span>
                     </h2>
                     <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-                        Mastering the full stack from frontend to infrastructure, with 4+ years of hands-on experience
+                        Mastering the full stack from frontend to infrastructure, with 6+ years of hands-on experience
                     </p>
                 </motion.div>
 
