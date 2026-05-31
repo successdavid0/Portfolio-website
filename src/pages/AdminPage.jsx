@@ -14,7 +14,7 @@ const iconOptions     = ['Network','Code','Bot','Cloud','Shield','Zap','Server',
 const categoryOptions = ['Network Engineering','Full-Stack','Bot Development','DevOps','Network Security','Network Tools']
 
 // ─── Shared input styles ──────────────────────────────────────
-const inp = "w-full px-3 py-2.5 rounded-lg bg-zinc-800 border border-zinc-700 text-white text-sm outline-none focus:border-amber-500 transition-colors placeholder-zinc-500"
+const inp = "w-full px-3 py-2.5 rounded-lg bg-zinc-800 border border-zinc-700 text-white text-sm outline-none focus:border-green-500 transition-colors placeholder-zinc-500"
 const lbl = "block text-xs text-zinc-400 mb-1.5 font-medium"
 
 // ─── Password / Login Screen ──────────────────────────────────
@@ -49,14 +49,14 @@ const LoginScreen = ({ onAuth }) => {
   return (
     <div className="min-h-screen bg-zinc-950 flex items-center justify-center px-4">
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-[500px] h-[500px] bg-amber-500/8 rounded-full blur-[120px]" />
+        <div className="w-[500px] h-[500px] bg-green-500/8 rounded-full blur-[120px]" />
       </div>
 
       <div className={`relative z-10 w-full max-w-sm ${shake ? 'animate-[shake_0.4s_ease]' : ''}`}>
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2.5 mb-4">
-            <div className="w-10 h-10 border border-amber-500 flex items-center justify-center">
-              <span className="font-bold text-amber-500 text-lg">S</span>
+            <div className="w-10 h-10 border border-green-500 flex items-center justify-center">
+              <span className="font-bold text-green-500 text-lg">S</span>
             </div>
             <span className="text-lg font-bold text-white tracking-wide">Admin Portal</span>
           </div>
@@ -81,12 +81,12 @@ const LoginScreen = ({ onAuth }) => {
           <button
             type="submit"
             disabled={busy}
-            className="w-full py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold transition-colors disabled:opacity-60"
+            className="w-full py-3 rounded-xl bg-green-500 hover:bg-green-400 text-black font-bold transition-colors disabled:opacity-60"
           >
             {busy ? 'Signing in…' : 'Sign In'}
           </button>
         </form>
-        <p className="text-center text-zinc-700 text-xs mt-5">Success David Praise — Portfolio CMS</p>
+        <p className="text-center text-zinc-700 text-xs mt-5">success.dev — Portfolio CMS</p>
       </div>
     </div>
   )
@@ -168,10 +168,10 @@ const ImageUploader = ({ value, onChange, token }) => {
         onDrop={onDrop}
         onDragOver={e => e.preventDefault()}
         onClick={() => inputRef.current?.click()}
-        className="flex flex-col items-center gap-2 p-5 rounded-lg border border-dashed border-zinc-600 hover:border-amber-500 bg-zinc-800/40 cursor-pointer transition-colors"
+        className="flex flex-col items-center gap-2 p-5 rounded-lg border border-dashed border-zinc-600 hover:border-green-500 bg-zinc-800/40 cursor-pointer transition-colors"
       >
         {uploading
-          ? <Loader2 className="h-6 w-6 text-amber-400 animate-spin" />
+          ? <Loader2 className="h-6 w-6 text-green-400 animate-spin" />
           : <ImagePlus className="h-6 w-6 text-zinc-400" />}
         <span className="text-xs text-zinc-400 text-center">
           {uploading ? 'Uploading…' : 'Click or drag & drop an image'}
@@ -253,7 +253,7 @@ const ProjectsEditor = ({ token }) => {
           <h2 className="text-xl font-bold text-white">Projects</h2>
           <p className="text-zinc-500 text-sm">{data.projects.length} projects</p>
         </div>
-        <button onClick={openAdd} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold text-sm transition-colors">
+        <button onClick={openAdd} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-green-500 hover:bg-green-400 text-black font-bold text-sm transition-colors">
           <Plus className="h-4 w-4" /> Add Project
         </button>
       </div>
@@ -314,7 +314,7 @@ const ProjectsEditor = ({ token }) => {
             </div>
           </div>
           <div className="flex gap-3 mt-5">
-            <button onClick={saveForm} disabled={busy} className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold text-sm transition-colors disabled:opacity-60">
+            <button onClick={saveForm} disabled={busy} className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-green-500 hover:bg-green-400 text-black font-bold text-sm transition-colors disabled:opacity-60">
               <Save className="h-4 w-4" /> {busy ? 'Saving…' : 'Save Project'}
             </button>
             <button onClick={closeForm} className="px-6 py-2.5 rounded-xl border border-zinc-700 text-zinc-400 hover:text-white hover:border-zinc-500 text-sm transition-colors">
@@ -336,7 +336,7 @@ const ProjectsEditor = ({ token }) => {
             <div className="flex-1 min-w-0">
               <div className="font-semibold text-white truncate text-sm">{p.title}</div>
               <div className="flex items-center gap-2 mt-1">
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 font-medium">{p.category}</span>
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 font-medium">{p.category}</span>
                 <span className="text-xs text-zinc-600 truncate">{Array.isArray(p.tags) ? p.tags.slice(0,3).join(' · ') : ''}</span>
               </div>
             </div>
@@ -378,7 +378,7 @@ const SkillsEditor = ({ token }) => {
           <h2 className="text-xl font-bold text-white">Skills</h2>
           <p className="text-zinc-500 text-sm">Adjust proficiency levels</p>
         </div>
-        <button onClick={saveAll} disabled={busy} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold text-sm transition-colors disabled:opacity-60">
+        <button onClick={saveAll} disabled={busy} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-green-500 hover:bg-green-400 text-black font-bold text-sm transition-colors disabled:opacity-60">
           <Save className="h-4 w-4" /> {busy ? 'Saving…' : 'Save All'}
         </button>
       </div>
@@ -388,7 +388,7 @@ const SkillsEditor = ({ token }) => {
       <div className="space-y-5">
         {groups.map(cat => (
           <div key={cat} className="p-5 rounded-2xl bg-zinc-900 border border-zinc-800">
-            <h3 className="text-amber-400 font-bold uppercase text-xs tracking-widest mb-4">{cat}</h3>
+            <h3 className="text-green-400 font-bold uppercase text-xs tracking-widest mb-4">{cat}</h3>
             <div className="space-y-4">
               {local.filter(s => s.category === cat).map(skill => (
                 <div key={skill.name} className="flex items-center gap-4">
@@ -396,9 +396,9 @@ const SkillsEditor = ({ token }) => {
                   <input
                     type="range" min="0" max="100" value={skill.level}
                     onChange={e => setLocal(ls => ls.map(s => s.name === skill.name ? { ...s, level: Number(e.target.value) } : s))}
-                    className="flex-1 accent-amber-500"
+                    className="flex-1 accent-green-500"
                   />
-                  <span className="text-amber-400 font-bold text-sm w-10 text-right">{skill.level}%</span>
+                  <span className="text-green-400 font-bold text-sm w-10 text-right">{skill.level}%</span>
                 </div>
               ))}
             </div>
@@ -434,7 +434,7 @@ const StatsEditor = ({ token }) => {
           <h2 className="text-xl font-bold text-white">Stats & Numbers</h2>
           <p className="text-zinc-500 text-sm">Update the key numbers across your portfolio</p>
         </div>
-        <button onClick={saveAll} disabled={busy} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold text-sm transition-colors disabled:opacity-60">
+        <button onClick={saveAll} disabled={busy} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-green-500 hover:bg-green-400 text-black font-bold text-sm transition-colors disabled:opacity-60">
           <Save className="h-4 w-4" /> {busy ? 'Saving…' : 'Save'}
         </button>
       </div>
@@ -443,7 +443,7 @@ const StatsEditor = ({ token }) => {
 
       <div className="space-y-5">
         <div className="p-5 rounded-2xl bg-zinc-900 border border-zinc-800">
-          <h3 className="text-amber-400 font-bold uppercase text-xs tracking-widest mb-4">Hero Section</h3>
+          <h3 className="text-green-400 font-bold uppercase text-xs tracking-widest mb-4">Hero Section</h3>
           <div className="grid grid-cols-2 gap-4">
             {hero.map((s, i) => (
               <div key={i}>
@@ -455,7 +455,7 @@ const StatsEditor = ({ token }) => {
         </div>
 
         <div className="p-5 rounded-2xl bg-zinc-900 border border-zinc-800">
-          <h3 className="text-amber-400 font-bold uppercase text-xs tracking-widest mb-4">About Section</h3>
+          <h3 className="text-green-400 font-bold uppercase text-xs tracking-widest mb-4">About Section</h3>
           <div className="grid grid-cols-2 gap-4">
             {about.map((s, i) => (
               <div key={i}>
@@ -507,7 +507,7 @@ const ChangePassword = ({ token }) => {
             <input type="password" className={inp} value={form[key]} onChange={e => setForm(f => ({ ...f, [key]: e.target.value }))} required />
           </div>
         ))}
-        <button type="submit" disabled={busy} className="w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold text-sm transition-colors disabled:opacity-60">
+        <button type="submit" disabled={busy} className="w-full py-2.5 rounded-xl bg-green-500 hover:bg-green-400 text-black font-bold text-sm transition-colors disabled:opacity-60">
           {busy ? 'Saving…' : 'Update Password'}
         </button>
       </form>
@@ -542,8 +542,8 @@ export const AdminPage = () => {
       <aside className="w-56 flex-shrink-0 border-r border-zinc-800 flex flex-col">
         <div className="p-5 border-b border-zinc-800">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 border border-amber-500 flex items-center justify-center flex-shrink-0">
-              <span className="font-bold text-amber-500 text-sm">S</span>
+            <div className="w-8 h-8 border border-green-500 flex items-center justify-center flex-shrink-0">
+              <span className="font-bold text-green-500 text-sm">S</span>
             </div>
             <div>
               <div className="text-sm font-bold text-white">Portfolio CMS</div>
@@ -559,7 +559,7 @@ export const AdminPage = () => {
               onClick={() => setTab(t.id)}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
                 tab === t.id
-                  ? 'bg-amber-500/15 text-amber-400 border border-amber-500/30'
+                  ? 'bg-green-500/15 text-green-400 border border-green-500/30'
                   : 'text-zinc-400 hover:text-white hover:bg-zinc-800'
               }`}
             >

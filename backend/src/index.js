@@ -36,7 +36,13 @@ app.use((err, _req, res, _next) => {
 
 // ── Start ─────────────────────────────────────────────────────
 initDb()
-app.listen(PORT, () => {
-  console.log(`\n🚀 Portfolio API running on http://localhost:${PORT}`)
-  console.log(`   Health: http://localhost:${PORT}/api/health\n`)
-})
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`\n🚀 Portfolio API running on http://localhost:${PORT}`)
+      console.log(`   Health: http://localhost:${PORT}/api/health\n`)
+    })
+  })
+  .catch(err => {
+    console.error('Failed to initialise database:', err)
+    process.exit(1)
+  })

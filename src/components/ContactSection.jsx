@@ -162,7 +162,7 @@ export const ContactSection = () => {
 
             {/* EmailJS setup notice (only shown in dev if not configured) */}
             {!emailjsConfigured && (
-              <div className="flex items-start gap-3 p-4 border border-amber-500/30 bg-amber-500/5 text-amber-400 text-xs leading-relaxed">
+              <div className="flex items-start gap-3 p-4 border border-green-500/30 bg-green-500/5 text-green-400 text-xs leading-relaxed">
                 <AlertCircle className="h-4 w-4 flex-shrink-0 mt-0.5" />
                 <span>
                   Contact form uses mailto fallback. Add <code className="bg-black/40 px-1 rounded">VITE_EMAILJS_*</code> keys to <code className="bg-black/40 px-1 rounded">.env</code> to enable real email sending.

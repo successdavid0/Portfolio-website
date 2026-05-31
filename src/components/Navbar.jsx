@@ -52,7 +52,7 @@ export const Navbar = () => {
             <span className="font-display font-bold text-primary text-sm leading-none">S</span>
           </div>
           <span className="hidden sm:block text-sm font-medium tracking-[0.15em] uppercase text-foreground/80 group-hover:text-foreground transition-colors">
-            Success David
+            success.dev
           </span>
         </a>
 

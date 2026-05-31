@@ -39,7 +39,7 @@ export const HeroSection = () => {
         {/* Photo */}
         <img
           src="/profile.png"
-          alt="Success David Praise"
+          alt="success.dev"
           className="w-full h-full object-cover object-top"
         />
         {/* Left-edge gradient fade into black */}
@@ -70,7 +70,7 @@ export const HeroSection = () => {
         {/* Label row */}
         <motion.div {...fadeUp(0.2)} className="flex items-center gap-4 mb-8">
           <span className="section-num">Portfolio 2025</span>
-          <span className="gold-line w-12" />
+          <span className="accent-line w-12" />
           <span className="flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
             <span className="text-xs text-muted-foreground tracking-wider">Available</span>
@@ -84,15 +84,13 @@ export const HeroSection = () => {
             className="font-display font-black leading-[0.9] tracking-tight text-foreground"
             style={{ fontSize: "clamp(3.5rem, 7vw, 7rem)" }}
           >
-            Success
+            success
             <br />
-            <span className="text-glow text-primary italic">David</span>
-            <br />
-            Praise.
+            <span className="text-glow text-primary italic">.dev</span>
           </motion.h1>
         </div>
 
-        {/* Gold divider */}
+        {/* Accent divider */}
         <motion.div {...fadeUp(0.5)} className="flex items-center gap-4 mb-6">
           <div className="h-px w-14 bg-primary" />
           <div className="h-px flex-1 bg-border" />

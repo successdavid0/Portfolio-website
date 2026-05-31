@@ -44,7 +44,7 @@ export const Footer = () => {
               <div className="w-8 h-8 border border-primary flex items-center justify-center">
                 <span className="font-display font-bold text-primary text-sm">S</span>
               </div>
-              <span className="font-semibold tracking-wider text-foreground">Success David Praise</span>
+              <span className="font-semibold tracking-wider text-foreground">success.dev</span>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
               Building scalable web applications, secure networks, and intelligent automation.
@@ -124,7 +124,7 @@ export const Footer = () => {
         {/* Bottom bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 border-t border-border">
           <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} Success David Praise. Crafted with precision in Lagos, Nigeria.
+            © {new Date().getFullYear()} success.dev. Crafted with precision in Lagos, Nigeria.
           </p>
           <div className="flex items-center gap-6">
             <a href="#" className="text-xs text-muted-foreground hover:text-primary transition-colors">Privacy</a>
