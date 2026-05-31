@@ -1,5 +1,4 @@
 import pg from 'pg'
-import Database from 'better-sqlite3'
 import bcrypt from 'bcryptjs'
 import fs from 'fs'
 import path from 'path'
@@ -13,12 +12,11 @@ const usePostgres = Boolean(process.env.DATABASE_URL?.trim())
 
 let _pool = null
 let _db = null
+let _SqliteDatabase = null
 
 const sqlitePath = process.env.DB_PATH
   ? path.resolve(process.env.DB_PATH)
-  : process.env.RENDER
-    ? '/tmp/portfolio.db'
-    : path.join(__dirname, '../../data/portfolio.db')
+  : path.join(__dirname, '../../data/portfolio.db')
 
 function shouldUseSsl(connectionString) {
   if (!connectionString) return false
@@ -27,6 +25,19 @@ function shouldUseSsl(connectionString) {
     return hostname !== 'localhost' && hostname !== '127.0.0.1' && hostname !== '::1'
   } catch {
     return false
+  }
+}
+
+async function loadSqlite() {
+  if (_SqliteDatabase) return _SqliteDatabase
+  try {
+    const mod = await import('better-sqlite3')
+    _SqliteDatabase = mod.default
+    return _SqliteDatabase
+  } catch {
+    throw new Error(
+      'SQLite is unavailable. Install backend dev dependencies locally, or set DATABASE_URL to a PostgreSQL connection string on Render.'
+    )
   }
 }
 
@@ -45,10 +56,7 @@ export const getPool = () => {
 export const getDb = () => {
   if (usePostgres) return null
   if (!_db) {
-    fs.mkdirSync(path.dirname(sqlitePath), { recursive: true })
-    _db = new Database(sqlitePath)
-    _db.pragma('journal_mode = WAL')
-    _db.pragma('foreign_keys = ON')
+    throw new Error('SQLite database not initialised. Call initDb() first.')
   }
   return _db
 }
@@ -88,10 +96,14 @@ async function initPostgres() {
   console.log('✓ Database ready (PostgreSQL)')
 }
 
-function initSqlite() {
-  const db = getDb()
+async function initSqlite() {
+  const SqliteDatabase = await loadSqlite()
+  fs.mkdirSync(path.dirname(sqlitePath), { recursive: true })
+  _db = new SqliteDatabase(sqlitePath)
+  _db.pragma('journal_mode = WAL')
+  _db.pragma('foreign_keys = ON')
 
-  db.exec(`
+  _db.exec(`
     CREATE TABLE IF NOT EXISTS portfolio_data (
       section     TEXT PRIMARY KEY,
       data        TEXT NOT NULL,
@@ -105,35 +117,33 @@ function initSqlite() {
     );
   `)
 
-  const insert = db.prepare(
+  const insert = _db.prepare(
     'INSERT OR IGNORE INTO portfolio_data (section, data) VALUES (?, ?)'
   )
   for (const [section, data] of Object.entries(defaultData)) {
     insert.run(section, JSON.stringify(data))
   }
 
-  const hasAdmin = db.prepare('SELECT id FROM admin LIMIT 1').get()
+  const hasAdmin = _db.prepare('SELECT id FROM admin LIMIT 1').get()
   if (!hasAdmin) {
     const hash = bcrypt.hashSync(process.env.ADMIN_PASSWORD || 'success2025', 12)
-    db.prepare('INSERT INTO admin (id, password_hash) VALUES (1, ?)').run(hash)
+    _db.prepare('INSERT INTO admin (id, password_hash) VALUES (1, ?)').run(hash)
   }
 
-  if (process.env.RENDER && !process.env.DATABASE_URL) {
-    console.warn(
-      '⚠ DATABASE_URL is not set — using temporary SQLite storage at',
-      sqlitePath,
-      '\n  Link a Render PostgreSQL database and set DATABASE_URL for persistent data.'
-    )
-  } else {
-    console.log(`✓ Database ready (SQLite at ${sqlitePath})`)
-  }
+  console.log(`✓ Database ready (SQLite at ${sqlitePath})`)
 }
 
 export const initDb = async () => {
+  if (process.env.NODE_ENV === 'production' && !usePostgres) {
+    throw new Error(
+      'DATABASE_URL is required in production. Create a Render PostgreSQL database and link it to this service.'
+    )
+  }
+
   if (usePostgres) {
     await initPostgres()
   } else {
-    initSqlite()
+    await initSqlite()
   }
 }
 

@@ -3,12 +3,16 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "dev": "vite",
-    "build": "npm install --prefix backend && vite build",
+    "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "postinstall": "npm install --prefix backend",
+    "setup": "npm install --prefix backend",
+    "postinstall": "npm install --prefix backend --omit=dev",
     "start": "npm start --prefix backend"
   },
   "dependencies": {
