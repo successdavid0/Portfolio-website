@@ -5,11 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "npm install --prefix backend && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "npm start --prefix backend",
-    "build:render": "npm install --prefix backend"
+    "postinstall": "npm install --prefix backend",
+    "start": "npm start --prefix backend"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
