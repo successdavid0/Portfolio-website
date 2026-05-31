@@ -1,283 +1,235 @@
-import { Mail, MapPin, Phone, Send, Twitter, Linkedin, Github, MessageSquare, Clock, CheckCircle2, Globe } from "lucide-react";
-import { motion } from "framer-motion";
-import { useState } from "react";
-import { cn } from "@/lib/utils";
+import { Mail, MapPin, Phone, Send, Twitter, Linkedin, Github, MessageSquare, Clock, CheckCircle2, Globe, AlertCircle } from "lucide-react"
+import { motion } from "framer-motion"
+import { useState, useRef } from "react"
+import emailjs from "@emailjs/browser"
+import { hasBackend, api } from "../lib/api"
+
+const contactMethods = [
+  { icon: Mail,    label: "Email",    value: "successdavidpraise99@gmail.com", href: "mailto:successdavidpraise99@gmail.com" },
+  { icon: Phone,   label: "Phone",    value: "+234 906 429 2153",              href: "tel:+2349064292153" },
+  { icon: MapPin,  label: "Location", value: "Lagos, Nigeria",                 href: null },
+  { icon: Globe,   label: "Portfolio",value: "portfolio-website.vercel.app",   href: "https://portfolio-website-xby4.vercel.app/" },
+]
+
+const socialLinks = [
+  { icon: Twitter,      href: "https://x.com/kolBigsnow",                label: "Twitter" },
+  { icon: Linkedin,     href: "https://www.linkedin.com/in/success-david",label: "LinkedIn" },
+  { icon: Github,       href: "https://github.com",                       label: "GitHub" },
+  { icon: MessageSquare,href: "https://t.me/chil_Snowman",                label: "Telegram" },
+]
+
+const inView = (delay = 0) => ({
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true },
+  transition: { duration: 0.75, delay, ease: [0.22, 1, 0.36, 1] },
+})
+
+// EmailJS config — set these in your .env file
+const EJS_SERVICE  = import.meta.env.VITE_EMAILJS_SERVICE_ID  || ""
+const EJS_TEMPLATE = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || ""
+const EJS_KEY      = import.meta.env.VITE_EMAILJS_PUBLIC_KEY  || ""
+
+const emailjsConfigured = EJS_SERVICE && EJS_TEMPLATE && EJS_KEY
 
 export const ContactSection = () => {
-    const [formStatus, setFormStatus] = useState('idle'); // idle, sending, sent
+  const formRef = useRef(null)
+  const [status, setStatus] = useState("idle") // idle | sending | sent | error
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setFormStatus('sending');
-        
-        // Simulate form submission
-        setTimeout(() => {
-            setFormStatus('sent');
-            setTimeout(() => setFormStatus('idle'), 3000);
-        }, 1500);
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setStatus("sending")
+    const form = formRef.current
 
-    const contactMethods = [
-        {
-            icon: Mail,
-            title: "Email",
-            value: "successdavidpraise99@gmail.com",
-            href: "mailto:successdavidpraise99@gmail.com",
-            color: "from-red-500 to-orange-500"
-        },
-        {
-            icon: Phone,
-            title: "Phone",
-            value: "+234 906 429 2153",
-            href: "tel:+2349064292153",
-            color: "from-orange-500 to-red-600"
-        },
-        {
-            icon: MapPin,
-            title: "Location",
-            value: "Lagos, Nigeria",
-            href: null,
-            color: "from-red-600 to-rose-500"
-        },
-        {
-            icon: Globe,
-            title: "Portfolio",
-            value: "portfolio-website.vercel.app",
-            href: "https://portfolio-website-xby4.vercel.app/",
-            color: "from-rose-500 to-red-500"
-        }
-    ];
+    try {
+      // Priority 1: backend API
+      if (hasBackend()) {
+        await api.sendContact({
+          name:    form.name.value,
+          email:   form.email.value,
+          subject: form.subject.value,
+          message: form.message.value,
+        })
+      // Priority 2: EmailJS
+      } else if (emailjsConfigured) {
+        await emailjs.sendForm(EJS_SERVICE, EJS_TEMPLATE, form, { publicKey: EJS_KEY })
+      // Fallback: mailto link
+      } else {
+        const { name, email, subject, message } = Object.fromEntries(new FormData(form))
+        window.location.href = `mailto:successdavidpraise99@gmail.com?subject=${encodeURIComponent(subject || "Portfolio Contact")}&body=${encodeURIComponent(`From: ${name} (${email})\n\n${message}`)}`
+        setStatus("idle")
+        return
+      }
+      setStatus("sent")
+      form.reset()
+      setTimeout(() => setStatus("idle"), 4000)
+    } catch (err) {
+      console.error("Contact error:", err)
+      setStatus("error")
+      setTimeout(() => setStatus("idle"), 4000)
+    }
+  }
 
-    const socialLinks = [
-        { icon: Twitter, href: "https://x.com/kolBigsnow/status/1944618793415712800", label: "Twitter" },
-        { icon: Linkedin, href: "https://www.linkedin.com/in/success-david", label: "LinkedIn" },
-        { icon: Github, href: "https://github.com", label: "GitHub" },
-        { icon: MessageSquare, href: "https://t.me/chil_Snowman", label: "Telegram" }
-    ];
+  return (
+    <section id="contact" className="py-24 md:py-32 px-4 sm:px-6 relative">
+      <div className="absolute right-0 bottom-0 w-[500px] h-[400px] bg-primary/4 rounded-full blur-[140px] pointer-events-none" />
 
-    return(
-        <section id="contact" className="py-16 sm:py-20 md:py-24 px-4 sm:px-6 md:px-8 relative overflow-hidden">
-            {/* Background */}
-            <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/20 to-background" />
-            
-            {/* Animated Background Elements */}
-            <motion.div 
-                className="absolute top-1/4 right-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[100px]"
-                animate={{
-                    scale: [1, 1.2, 1],
-                    opacity: [0.3, 0.5, 0.3],
-                }}
-                transition={{ duration: 8, repeat: Infinity }}
-            />
+      <div className="container max-w-7xl mx-auto">
 
-            <div className="container mx-auto max-w-6xl relative z-10">
-                {/* Section Header */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="text-center mb-16"
-                >
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
-                        Let's Create Something <span className="text-glow text-primary">Extraordinary</span>
-                    </h2>
-                    <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-                        Have a project in mind? Let's discuss how I can help bring your vision to life.
-                        I typically respond within 24 hours.
-                    </p>
-                </motion.div>
+        {/* Header */}
+        <motion.div {...inView()} className="mb-16">
+          <span className="section-num">04 — Contact</span>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mt-3">
+            <h2 className="font-display font-bold text-5xl md:text-6xl lg:text-7xl leading-tight">
+              Let's Build Something <span className="text-primary italic">Great.</span>
+            </h2>
+            <p className="text-muted-foreground max-w-sm text-sm leading-relaxed">
+              Have a project in mind? I typically respond within 24 hours.
+            </p>
+          </div>
+          <div className="h-px w-full bg-border mt-8" />
+        </motion.div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 md:gap-12">
-                    {/* Left: Contact Info */}
-                    <motion.div
-                        initial={{ opacity: 0, x: -30 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        className="space-y-8"
-                    >
-                        {/* Availability Status */}
-                        <motion.div
-                            whileHover={{ scale: 1.02 }}
-                            className="p-6 rounded-2xl bg-gradient-to-br from-primary/10 via-red-600/5 to-primary/10 border border-primary/20"
-                        >
-                            <div className="flex items-center gap-3 mb-2">
-                                <div className="relative">
-                                    <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
-                                    <div className="absolute inset-0 w-3 h-3 bg-green-500 rounded-full animate-ping" />
-                                </div>
-                                <h3 className="font-bold text-lg">Currently Available</h3>
-                            </div>
-                            <p className="text-sm text-muted-foreground">
-                                Open to new projects and collaborations. Next availability: Immediate
-                            </p>
-                        </motion.div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-px bg-border">
 
-                        {/* Contact Methods */}
-                        <div className="space-y-4">
-                            {contactMethods.map((method, index) => (
-                                <motion.a
-                                    key={index}
-                                    href={method.href}
-                                    initial={{ opacity: 0, x: -20 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: index * 0.1 }}
-                                    whileHover={{ scale: 1.03, x: 5 }}
-                                    className="flex items-center gap-4 p-4 rounded-xl bg-card/50 backdrop-blur-sm border border-border hover:border-primary/50 transition-all duration-300 group"
-                                >
-                                    <div className={`p-3 rounded-xl bg-gradient-to-br ${method.color} bg-opacity-10`}>
-                                        <method.icon className="h-6 w-6 text-primary group-hover:scale-110 transition-transform" />
-                                    </div>
-                                    <div className="flex-1">
-                                        <h4 className="font-semibold text-sm text-muted-foreground mb-1">{method.title}</h4>
-                                        <p className="text-foreground group-hover:text-primary transition-colors font-medium">
-                                            {method.value}
-                                        </p>
-                                    </div>
-                                </motion.a>
-                            ))}
-                        </div>
+          {/* Left: Info */}
+          <motion.div {...inView(0.1)} className="bg-card p-10 space-y-10">
 
-                        {/* Social Links */}
-                        <div className="pt-4">
-                            <h4 className="font-bold text-lg mb-4">Connect With Me</h4>
-                            <div className="flex flex-wrap gap-3">
-                                {socialLinks.map((social, index) => (
-                                    <motion.a
-                                        key={index}
-                                        href={social.href}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        whileHover={{ scale: 1.1, rotate: 5 }}
-                                        whileTap={{ scale: 0.9 }}
-                                        className="p-4 rounded-xl bg-card/50 backdrop-blur-sm border border-border hover:border-primary hover:bg-primary/5 transition-all duration-300 group"
-                                        title={social.label}
-                                    >
-                                        <social.icon className="h-6 w-6 text-foreground group-hover:text-primary transition-colors" />
-                                    </motion.a>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Response Time */}
-                        <motion.div
-                            whileHover={{ scale: 1.02 }}
-                            className="flex items-center gap-3 p-4 rounded-xl bg-card/30 backdrop-blur-sm"
-                        >
-                            <Clock className="h-5 w-5 text-primary" />
-                            <p className="text-sm text-muted-foreground">
-                                <span className="text-foreground font-semibold">Average response time:</span> Within 24 hours
-                            </p>
-                        </motion.div>
-                    </motion.div>
-
-                    {/* Right: Contact Form */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 30 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        className="bg-card/50 backdrop-blur-sm p-8 rounded-2xl border border-border"
-                    >
-                        <h3 className="text-2xl font-bold mb-6">Send a Message</h3>
-
-                        <form onSubmit={handleSubmit} className="space-y-6">
-                            <div>
-                                <label htmlFor="name" className="block text-sm font-medium mb-2">
-                                    Your Name *
-                                </label>
-                                <input
-                                    type="text"
-                                    id="name"
-                                    name="name"
-                                    required
-                                    className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
-                                    placeholder="John Doe"
-                                />
-                            </div>
-
-                            <div>
-                                <label htmlFor="email" className="block text-sm font-medium mb-2">
-                                    Your Email *
-                                </label>
-                                <input
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    required
-                                    className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
-                                    placeholder="john@example.com"
-                                />
-                            </div>
-
-                            <div>
-                                <label htmlFor="subject" className="block text-sm font-medium mb-2">
-                                    Subject
-                                </label>
-                                <input
-                                    type="text"
-                                    id="subject"
-                                    name="subject"
-                                    className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
-                                    placeholder="Project Inquiry"
-                                />
-                            </div>
-
-                            <div>
-                                <label htmlFor="message" className="block text-sm font-medium mb-2">
-                                    Your Message *
-                                </label>
-                                <textarea
-                                    id="message"
-                                    name="message"
-                                    required
-                                    rows={5}
-                                    className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all resize-none"
-                                    placeholder="Tell me about your project..."
-                                />
-                            </div>
-
-                            <motion.button
-                                type="submit"
-                                disabled={formStatus === 'sending'}
-                                whileHover={{ scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
-                                className={cn(
-                                    "folio-button w-full flex items-center justify-center gap-2 relative overflow-hidden",
-                                    formStatus === 'sending' && "opacity-80 cursor-not-allowed"
-                                )}
-                            >
-                                {formStatus === 'idle' && (
-                                    <>
-                                        Send Message
-                                        <Send size={16} />
-                                    </>
-                                )}
-                                {formStatus === 'sending' && (
-                                    <>
-                                        Sending...
-                                        <motion.div
-                                            animate={{ rotate: 360 }}
-                                            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                                        >
-                                            <Send size={16} />
-                                        </motion.div>
-                                    </>
-                                )}
-                                {formStatus === 'sent' && (
-                                    <>
-                                        Message Sent!
-                                        <CheckCircle2 size={16} />
-                                    </>
-                                )}
-                            </motion.button>
-                        </form>
-
-                        <p className="text-xs text-muted-foreground mt-4 text-center">
-                            By sending a message, you agree to our privacy policy
-                        </p>
-                    </motion.div>
-                </div>
+            {/* Availability */}
+            <div className="flex items-center gap-3">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500" />
+              </span>
+              <div>
+                <p className="text-sm font-semibold text-foreground">Currently Available</p>
+                <p className="text-xs text-muted-foreground">Open to new projects — immediate start</p>
+              </div>
             </div>
-        </section>
-    );
-};
+
+            {/* Contact methods */}
+            <div className="space-y-5">
+              {contactMethods.map((m, i) => (
+                <div key={i} className="group">
+                  {m.href ? (
+                    <a href={m.href} className="flex items-center gap-4 hover:text-primary transition-colors">
+                      <div className="w-9 h-9 border border-border group-hover:border-primary flex items-center justify-center flex-shrink-0 transition-colors">
+                        <m.icon className="h-4 w-4 text-primary" />
+                      </div>
+                      <div>
+                        <div className="text-[10px] text-muted-foreground tracking-widest uppercase mb-0.5">{m.label}</div>
+                        <div className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">{m.value}</div>
+                      </div>
+                    </a>
+                  ) : (
+                    <div className="flex items-center gap-4">
+                      <div className="w-9 h-9 border border-border flex items-center justify-center flex-shrink-0">
+                        <m.icon className="h-4 w-4 text-primary" />
+                      </div>
+                      <div>
+                        <div className="text-[10px] text-muted-foreground tracking-widest uppercase mb-0.5">{m.label}</div>
+                        <div className="text-sm font-medium">{m.value}</div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Social */}
+            <div>
+              <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-muted-foreground mb-4">Connect</p>
+              <div className="flex gap-3">
+                {socialLinks.map((s, i) => (
+                  <a
+                    key={i}
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={s.label}
+                    className="w-9 h-9 border border-border hover:border-primary flex items-center justify-center group transition-colors"
+                  >
+                    <s.icon className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <Clock className="h-3.5 w-3.5 text-primary" />
+              Average response: within 24 hours
+            </div>
+
+            {/* EmailJS setup notice (only shown in dev if not configured) */}
+            {!emailjsConfigured && (
+              <div className="flex items-start gap-3 p-4 border border-amber-500/30 bg-amber-500/5 text-amber-400 text-xs leading-relaxed">
+                <AlertCircle className="h-4 w-4 flex-shrink-0 mt-0.5" />
+                <span>
+                  Contact form uses mailto fallback. Add <code className="bg-black/40 px-1 rounded">VITE_EMAILJS_*</code> keys to <code className="bg-black/40 px-1 rounded">.env</code> to enable real email sending.
+                </span>
+              </div>
+            )}
+          </motion.div>
+
+          {/* Right: Form */}
+          <motion.div {...inView(0.15)} className="bg-card p-10">
+            <h3 className="font-display font-bold text-2xl mb-8">Send a Message</h3>
+
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-5">
+              {[
+                { id: "name",    label: "Your Name",    type: "text",  placeholder: "John Doe",         required: true },
+                { id: "email",   label: "Email Address",type: "email", placeholder: "john@example.com", required: true },
+                { id: "subject", label: "Subject",      type: "text",  placeholder: "Project Inquiry",  required: false },
+              ].map(f => (
+                <div key={f.id}>
+                  <label htmlFor={f.id} className="block text-[10px] font-semibold tracking-[0.2em] uppercase text-muted-foreground mb-2">
+                    {f.label} {f.required && <span className="text-primary">*</span>}
+                  </label>
+                  <input
+                    type={f.type}
+                    id={f.id}
+                    name={f.id}
+                    required={f.required}
+                    placeholder={f.placeholder}
+                    className="w-full px-4 py-3 bg-background border border-border focus:border-primary outline-none text-sm text-foreground placeholder-muted-foreground transition-colors"
+                  />
+                </div>
+              ))}
+
+              <div>
+                <label htmlFor="message" className="block text-[10px] font-semibold tracking-[0.2em] uppercase text-muted-foreground mb-2">
+                  Message <span className="text-primary">*</span>
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  required
+                  rows={5}
+                  placeholder="Tell me about your project..."
+                  className="w-full px-4 py-3 bg-background border border-border focus:border-primary outline-none text-sm text-foreground placeholder-muted-foreground transition-colors resize-none"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={status === "sending"}
+                className="w-full folio-button justify-center disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                {status === "idle"    && <><Send size={15} /> Send Message</>}
+                {status === "sending" && <><motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }}><Send size={15} /></motion.div> Sending...</>}
+                {status === "sent"    && <><CheckCircle2 size={15} /> Message Sent!</>}
+                {status === "error"   && <><AlertCircle size={15} /> Failed — try emailing directly</>}
+              </button>
+
+              {status === "sent" && (
+                <p className="text-center text-xs text-green-400">
+                  Message delivered. I'll reply within 24 hours.
+                </p>
+              )}
+            </form>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  )
+}

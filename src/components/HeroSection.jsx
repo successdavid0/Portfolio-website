@@ -1,154 +1,174 @@
-import { ArrowDown, Code2, Network, Bot } from "lucide-react"
-import { motion } from "framer-motion"
-import { useEffect, useState } from "react"
+import { ArrowDown, ArrowRight, MapPin } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
+import { useState, useEffect } from "react"
+import { usePortfolio } from "../context/PortfolioContext"
 
 const roles = [
-    "Full-Stack Developer",
-    "Network Engineer",
-    "Bot Architect",
-    "Web3 Specialist",
-    "Technical Leader"
+  "Full-Stack Developer",
+  "Network Engineer",
+  "Bot Architect",
+  "Web3 Specialist",
+  "Technical Leader",
 ]
 
-export const HeroSection = () =>{
-    const [roleIndex, setRoleIndex] = useState(0)
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setRoleIndex((prev) => (prev + 1) % roles.length)
-        }, 3000)
-        return () => clearInterval(interval)
-    }, [])
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 28 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] },
+})
 
-    return(
-        <section
-        id="hero"
-        className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 md:px-8 overflow-hidden pt-24 sm:pt-28 md:pt-32"
+export const HeroSection = () => {
+  const [roleIndex, setRoleIndex] = useState(0)
+  const { data } = usePortfolio()
+
+  useEffect(() => {
+    const id = setInterval(() => setRoleIndex(i => (i + 1) % roles.length), 3000)
+    return () => clearInterval(id)
+  }, [])
+
+  return (
+    <section id="hero" className="relative h-screen flex flex-row-reverse overflow-hidden">
+
+      {/* ── RIGHT: Full-height portrait ── */}
+      <motion.div
+        initial={{ opacity: 0, x: 40 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+        className="hidden md:block w-[42%] lg:w-[40%] xl:w-[42%] flex-shrink-0 relative"
+      >
+        {/* Photo */}
+        <img
+          src="/profile.png"
+          alt="Success David Praise"
+          className="w-full h-full object-cover object-top"
+        />
+        {/* Left-edge gradient fade into black */}
+        <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-background" />
+        {/* Bottom fade */}
+        <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
+        {/* Gold bottom bar */}
+        <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-gradient-to-r from-primary to-accent" />
+
+        {/* Floating location tag */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.2, duration: 0.6 }}
+          className="absolute bottom-8 left-6 flex items-center gap-2 bg-black/70 backdrop-blur-sm border border-white/10 rounded-full px-4 py-2"
         >
-            {/* Animated Background Grid */}
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_60%,transparent_100%)]" />
-            
-            {/* Glowing Orbs */}
-            <motion.div 
-                className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[120px]"
-                animate={{
-                    scale: [1, 1.2, 1],
-                    opacity: [0.3, 0.5, 0.3],
-                }}
-                transition={{ duration: 8, repeat: Infinity }}
-            />
-            <motion.div 
-                className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/20 rounded-full blur-[120px]"
-                animate={{
-                    scale: [1.2, 1, 1.2],
-                    opacity: [0.5, 0.3, 0.5],
-                }}
-                transition={{ duration: 8, repeat: Infinity, delay: 1 }}
-            />
+          <MapPin className="h-3.5 w-3.5 text-primary" />
+          <span className="text-xs text-white/70 tracking-wider">Lagos, Nigeria</span>
+        </motion.div>
+      </motion.div>
 
-            <div className="container max-w-6xl mx-auto text-center z-10">
-                <div className="space-y-6 md:space-y-8">
-                    {/* Greeting */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        className="text-xs sm:text-sm md:text-base text-muted-foreground tracking-[0.2em] sm:tracking-[0.3em] uppercase mb-2"
-                    >
-                        Welcome to My Portfolio
-                    </motion.div>
+      {/* ── RIGHT: Content ── */}
+      <div className="flex-1 flex flex-col justify-center px-8 sm:px-12 lg:px-14 xl:px-20 relative pt-20 lg:pt-0">
 
-                    {/* Main Title */}
-                    <motion.h1 
-                        className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight px-2"
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                    >
-                        <span className="block">Hi, I'm</span>
-                        <span className="text-glow text-primary block mt-4">
-                            Success David Praise
-                        </span>
-                    </motion.h1>
+        {/* Subtle top-right grain/texture orb */}
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
 
-                    {/* Rotating Roles */}
-                    <motion.div
-                        className="h-16 md:h-20 flex items-center justify-center"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.6 }}
-                    >
-                        <motion.p
-                            key={roleIndex}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -20 }}
-                            transition={{ duration: 0.5 }}
-                            className="text-xl sm:text-2xl md:text-4xl font-semibold bg-gradient-to-r from-primary via-red-600 to-primary bg-clip-text text-transparent"
-                        >
-                            {roles[roleIndex]}
-                        </motion.p>
-                    </motion.div>
+        {/* Label row */}
+        <motion.div {...fadeUp(0.2)} className="flex items-center gap-4 mb-8">
+          <span className="section-num">Portfolio 2025</span>
+          <span className="gold-line w-12" />
+          <span className="flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+            <span className="text-xs text-muted-foreground tracking-wider">Available</span>
+          </span>
+        </motion.div>
 
-                    {/* Value Proposition */}
-                    <motion.p 
-                        className="text-base md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.8 }}
-                    >
-                        Building scalable web applications, secure network infrastructures, and intelligent bots.
-                        <br className="hidden md:block" />
-                        <span className="text-foreground font-semibold">6+ years</span> of transforming complex challenges into elegant solutions.
-                    </motion.p>
+        {/* Name */}
+        <div className="mb-6 overflow-hidden">
+          <motion.h1
+            {...fadeUp(0.35)}
+            className="font-display font-black leading-[0.9] tracking-tight text-foreground"
+            style={{ fontSize: "clamp(3.5rem, 7vw, 7rem)" }}
+          >
+            Success
+            <br />
+            <span className="text-glow text-primary italic">David</span>
+            <br />
+            Praise.
+          </motion.h1>
+        </div>
 
-                    {/* CTAs */}
-                    <motion.div 
-                        className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center pt-4 sm:pt-6 px-4"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 1 }}
-                    >
-                        <a href="#projects" className="folio-button group">
-                            View My Work
-                            <Code2 className="inline-block ml-2 h-5 w-5 group-hover:rotate-12 transition-transform" />
-                        </a>
-                        <a 
-                            href="#contact" 
-                            className="px-6 py-3 rounded-full border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground font-semibold transition-all duration-300 hover:scale-105"
-                        >
-                            Get In Touch
-                        </a>
-                    </motion.div>
+        {/* Gold divider */}
+        <motion.div {...fadeUp(0.5)} className="flex items-center gap-4 mb-6">
+          <div className="h-px w-14 bg-primary" />
+          <div className="h-px flex-1 bg-border" />
+        </motion.div>
 
-                    {/* Stats */}
-                    <motion.div
-                        className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 pt-16 max-w-4xl mx-auto"
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 1.2 }}
-                    >
-                        {[
-                            { icon: Code2, label: "Projects Delivered", value: "27+" },
-                            { icon: Network, label: "Uptime Achievement", value: "90.7%" },
-                            { icon: Bot, label: "Bots Deployed", value: "7+" },
-                            { icon: Code2, label: "Technologies", value: "10+" }
-                        ].map((stat, index) => (
-                            <motion.div
-                                key={index}
-                                className="p-3 sm:p-4 md:p-6 rounded-lg sm:rounded-xl bg-card/50 backdrop-blur-sm border border-border hover:border-primary/50 transition-all duration-300 group"
-                                whileHover={{ scale: 1.05, y: -5 }}
-                            >
-                                <stat.icon className="h-5 w-5 sm:h-6 sm:w-6 text-primary mx-auto mb-2 sm:mb-3 group-hover:scale-110 transition-transform" />
-                                <div className="text-xl sm:text-2xl md:text-3xl font-bold text-primary">{stat.value}</div>
-                                <div className="text-[10px] sm:text-xs md:text-sm text-muted-foreground mt-0.5 sm:mt-1">{stat.label}</div>
-                            </motion.div>
-                        ))}
-                    </motion.div>
-                </div>
+        {/* Rotating role */}
+        <motion.div {...fadeUp(0.55)} className="h-8 flex items-center mb-6 overflow-hidden">
+          <AnimatePresence mode="wait">
+            <motion.span
+              key={roleIndex}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.4 }}
+              className="text-sm sm:text-base font-medium tracking-[0.2em] uppercase text-muted-foreground"
+            >
+              {roles[roleIndex]}
+            </motion.span>
+          </AnimatePresence>
+        </motion.div>
+
+        {/* Description */}
+        <motion.p {...fadeUp(0.65)} className="text-muted-foreground leading-relaxed max-w-lg text-base mb-10">
+          Building scalable web applications, secure network infrastructures, and intelligent bots.{" "}
+          <span className="text-foreground font-medium">6+ years</span> of turning complex
+          challenges into elegant, high-performance solutions.
+        </motion.p>
+
+        {/* CTAs */}
+        <motion.div {...fadeUp(0.75)} className="flex flex-wrap gap-4 mb-12">
+          <a href="#projects" className="folio-button">
+            View Work <ArrowRight className="h-4 w-4" />
+          </a>
+          <a href="#contact" className="folio-button-outline">
+            Get In Touch
+          </a>
+        </motion.div>
+
+        {/* Stats */}
+        <motion.div
+          {...fadeUp(0.85)}
+          className="flex flex-wrap gap-8 pt-8 border-t border-border"
+        >
+          {data.heroStats.map((s) => (
+            <div key={s.label}>
+              <div className="font-display font-bold text-2xl sm:text-3xl text-primary">
+                {s.value}
+              </div>
+              <div className="text-xs text-muted-foreground tracking-wider uppercase mt-0.5">
+                {s.label}
+              </div>
             </div>
+          ))}
+        </motion.div>
+      </div>
 
-            {/* Scroll Indicator */}
-            
-        </section>
-    )
+      {/* Mobile photo — shown only on small screens */}
+      <div className="absolute inset-0 md:hidden -z-10">
+        <img src="/profile.png" alt="" className="w-full h-full object-cover object-top" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/70 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/10 to-background/80" />
+      </div>
+
+      {/* Scroll cue */}
+      <motion.a
+        href="#about"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2 }}
+        className="absolute bottom-8 right-8 flex flex-col items-center gap-2 text-muted-foreground hover:text-primary transition-colors group"
+      >
+        <span className="text-[10px] tracking-[0.25em] uppercase rotate-90 origin-center translate-x-6">Scroll</span>
+        <motion.div animate={{ y: [0, 6, 0] }} transition={{ duration: 1.6, repeat: Infinity }}>
+          <ArrowDown className="h-4 w-4" />
+        </motion.div>
+      </motion.a>
+    </section>
+  )
 }
