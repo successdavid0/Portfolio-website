@@ -1,4 +1,4 @@
-import { ArrowUp, Mail, Github, Twitter, Linkedin, MessageSquare } from "lucide-react"
+import { ArrowUp, Mail, Github, Twitter, MessageSquare } from "lucide-react"
 import { motion } from "framer-motion"
 
 const quickLinks = [
@@ -18,10 +18,9 @@ const services = [
 ]
 
 const socialLinks = [
-  { icon: Github,       href: "https://github.com",                        label: "GitHub" },
-  { icon: Twitter,      href: "https://x.com/AddyyyOnChain",                label: "X" },
-  { icon: Linkedin,     href: "https://www.linkedin.com/in/success-david", label: "LinkedIn" },
-  { icon: MessageSquare,href: "https://t.me/Addyyyonchain",                label: "Telegram" },
+  { icon: Github,       href: "https://github.com",           label: "GitHub" },
+  { icon: Twitter,      href: "https://x.com/AddyyyOnChain",  label: "X" },
+  { icon: MessageSquare,href: "https://t.me/Addyyyonchain",   label: "Telegram" },
 ]
 
 export const Footer = () => {

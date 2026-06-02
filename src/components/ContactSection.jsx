@@ -1,4 +1,4 @@
-import { Mail, MapPin, Phone, Send, Twitter, Linkedin, Github, MessageSquare, Clock, CheckCircle2, Globe, AlertCircle } from "lucide-react"
+import { Mail, MapPin, Phone, Send, Twitter, Github, MessageSquare, Clock, CheckCircle2, Globe, AlertCircle } from "lucide-react"
 import { motion } from "framer-motion"
 import { useState, useRef } from "react"
 import emailjs from "@emailjs/browser"
@@ -12,10 +12,9 @@ const contactMethods = [
 ]
 
 const socialLinks = [
-  { icon: Twitter,      href: "https://x.com/AddyyyOnChain",             label: "X" },
-  { icon: Linkedin,     href: "https://www.linkedin.com/in/success-david",label: "LinkedIn" },
-  { icon: Github,       href: "https://github.com",                       label: "GitHub" },
-  { icon: MessageSquare,href: "https://t.me/Addyyyonchain",               label: "Telegram" },
+  { icon: Twitter,      href: "https://x.com/AddyyyOnChain",  label: "X" },
+  { icon: Github,       href: "https://github.com",            label: "GitHub" },
+  { icon: MessageSquare,href: "https://t.me/Addyyyonchain",    label: "Telegram" },
 ]
 
 const inView = (delay = 0) => ({
