@@ -5,17 +5,17 @@ import emailjs from "@emailjs/browser"
 import { hasBackend, api } from "../lib/api"
 
 const contactMethods = [
-  { icon: Mail,    label: "Email",    value: "successdavidpraise99@gmail.com", href: "mailto:successdavidpraise99@gmail.com" },
+  { icon: Mail,    label: "Email",    value: "pvtsoap26@gmail.com", href: "mailto:pvtsoap26@gmail.com" },
   { icon: Phone,   label: "Phone",    value: "+234 906 429 2153",              href: "tel:+2349064292153" },
   { icon: MapPin,  label: "Location", value: "Lagos, Nigeria",                 href: null },
   { icon: Globe,   label: "Portfolio",value: "portfolio-website.vercel.app",   href: "https://portfolio-website-xby4.vercel.app/" },
 ]
 
 const socialLinks = [
-  { icon: Twitter,      href: "https://x.com/kolBigsnow",                label: "Twitter" },
+  { icon: Twitter,      href: "https://x.com/AddyyyOnChain",             label: "X" },
   { icon: Linkedin,     href: "https://www.linkedin.com/in/success-david",label: "LinkedIn" },
   { icon: Github,       href: "https://github.com",                       label: "GitHub" },
-  { icon: MessageSquare,href: "https://t.me/chil_Snowman",                label: "Telegram" },
+  { icon: MessageSquare,href: "https://t.me/Addyyyonchain",               label: "Telegram" },
 ]
 
 const inView = (delay = 0) => ({
@@ -56,7 +56,7 @@ export const ContactSection = () => {
       // Fallback: mailto link
       } else {
         const { name, email, subject, message } = Object.fromEntries(new FormData(form))
-        window.location.href = `mailto:successdavidpraise99@gmail.com?subject=${encodeURIComponent(subject || "Portfolio Contact")}&body=${encodeURIComponent(`From: ${name} (${email})\n\n${message}`)}`
+        window.location.href = `mailto:pvtsoap26@gmail.com?subject=${encodeURIComponent(subject || "Portfolio Contact")}&body=${encodeURIComponent(`From: ${name} (${email})\n\n${message}`)}`
         setStatus("idle")
         return
       }

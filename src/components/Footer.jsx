@@ -19,9 +19,9 @@ const services = [
 
 const socialLinks = [
   { icon: Github,       href: "https://github.com",                        label: "GitHub" },
-  { icon: Twitter,      href: "https://x.com/kolBigsnow",                  label: "Twitter" },
+  { icon: Twitter,      href: "https://x.com/AddyyyOnChain",                label: "X" },
   { icon: Linkedin,     href: "https://www.linkedin.com/in/success-david", label: "LinkedIn" },
-  { icon: MessageSquare,href: "https://t.me/chil_Snowman",                 label: "Telegram" },
+  { icon: MessageSquare,href: "https://t.me/Addyyyonchain",                label: "Telegram" },
 ]
 
 export const Footer = () => {
@@ -50,11 +50,11 @@ export const Footer = () => {
               Building scalable web applications, secure networks, and intelligent automation.
             </p>
             <a
-              href="mailto:successdavidpraise99@gmail.com"
+              href="mailto:pvtsoap26@gmail.com"
               className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
             >
               <Mail className="h-3.5 w-3.5 text-primary" />
-              successdavidpraise99@gmail.com
+              pvtsoap26@gmail.com
             </a>
           </motion.div>
 

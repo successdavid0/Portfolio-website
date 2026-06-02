@@ -91,13 +91,13 @@ export const About = () => {
               </div>
               <div className="flex items-center gap-2 text-muted-foreground text-sm">
                 <Mail className="h-4 w-4 text-primary flex-shrink-0" />
-                successdavidpraise99@gmail.com
+                pvtsoap26@gmail.com
               </div>
             </div>
 
             <div className="flex flex-wrap gap-4 pt-4">
               <a href="#contact" className="folio-button">Get In Touch</a>
-              <a href="mailto:successdavidpraise99@gmail.com" className="folio-button-outline">Download CV</a>
+              <a href="mailto:pvtsoap26@gmail.com" className="folio-button-outline">Download CV</a>
             </div>
           </motion.div>
 

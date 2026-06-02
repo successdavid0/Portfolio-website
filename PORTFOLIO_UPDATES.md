@@ -30,7 +30,7 @@
   - Backend Developer at FRDC Security Department
 - **Expertise Cards**: Four main service areas with hover effects
 - **Stats Banner**: Years of experience, clients served, success rate
-- **Real Contact Info**: Lagos, Nigeria | successdavidpraise99@gmail.com
+- **Real Contact Info**: Lagos, Nigeria | pvtsoap26@gmail.com
 
 ### 3. Skills Section
 - **Comprehensive Tech Stack**: 30+ technologies organized by category
@@ -61,7 +61,7 @@
 
 ### 5. Contact Section
 - **Multiple Contact Methods**:
-  - Email: successdavidpraise99@gmail.com
+  - Email: pvtsoap26@gmail.com
   - Phone: +234 906 429 2153
   - Location: Lagos, Nigeria
   - Portfolio: portfolio-website-dp7p.vercel.app

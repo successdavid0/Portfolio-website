@@ -11,7 +11,7 @@ import {
 const LOCAL_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || 'success2025'
 
 const iconOptions     = ['Network','Code','Bot','Cloud','Shield','Zap','Server','Globe']
-const categoryOptions = ['Network Engineering','Full-Stack','Bot Development','DevOps','Network Security','Network Tools']
+const categoryOptions = ['Network Engineering','Full-Stack','Bot Development','DevOps','Network Security','Network Tools','Content Creation']
 
 // ─── Shared input styles ──────────────────────────────────────
 const inp = "w-full px-3 py-2.5 rounded-lg bg-zinc-800 border border-zinc-700 text-white text-sm outline-none focus:border-green-500 transition-colors placeholder-zinc-500"
