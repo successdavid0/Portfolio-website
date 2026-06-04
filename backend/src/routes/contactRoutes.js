@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import nodemailer from 'nodemailer'
+import { logger } from '../logger.js'
 
 const router = Router()
 
@@ -30,7 +31,7 @@ router.post('/', async (req, res) => {
   const smtpConfigured = process.env.SMTP_USER && process.env.SMTP_PASS
 
   if (!smtpConfigured) {
-    console.warn('SMTP not configured — contact form message received but not sent:', { name, email, subject })
+    logger.warn('Contact form received but SMTP not configured', { name, email, subject })
     return res.json({ message: 'Received (SMTP not configured on server)' })
   }
 
@@ -60,9 +61,10 @@ router.post('/', async (req, res) => {
       `,
     })
 
+    logger.info('Contact email sent', { from: email, name, subject })
     res.json({ message: 'Message sent successfully' })
   } catch (err) {
-    console.error('Email send error:', err)
+    logger.error('Contact email failed', { error: err.message, from: email })
     res.status(500).json({ error: 'Failed to send email. Try contacting directly.' })
   }
 })

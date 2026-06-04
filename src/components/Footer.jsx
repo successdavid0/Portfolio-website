@@ -49,11 +49,11 @@ export const Footer = () => {
               Building scalable web applications, secure networks, and intelligent automation.
             </p>
             <a
-              href="mailto:pvtsoap26@gmail.com"
+              href="mailto:successdavidpraise99@gmail.com"
               className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
             >
               <Mail className="h-3.5 w-3.5 text-primary" />
-              pvtsoap26@gmail.com
+              successdavidpraise99@gmail.com
             </a>
           </motion.div>
 

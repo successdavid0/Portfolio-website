@@ -37,8 +37,15 @@ const LoginScreen = ({ onAuth }) => {
         if (pw === LOCAL_PASSWORD) { onAuth('local') }
         else throw new Error('Invalid password')
       }
-    } catch {
-      setErr('Incorrect password')
+    } catch (e) {
+      const msg = e?.message || ''
+      if (hasBackend() && (msg.includes('fetch') || msg.includes('Failed to fetch') || msg.includes('VITE_API_URL'))) {
+        setErr('Cannot reach backend — check VITE_API_URL on Vercel')
+      } else if (msg === 'Invalid password') {
+        setErr('Incorrect password — use ADMIN_PASSWORD from Render (restart after changing)')
+      } else {
+        setErr(msg || 'Incorrect password')
+      }
       setShake(true)
       setTimeout(() => setShake(false), 500)
     } finally {

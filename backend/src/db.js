@@ -4,6 +4,7 @@ import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { defaultData } from './defaultData.js'
+import { logger } from './logger.js'
 
 const { Pool } = pg
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -61,6 +62,50 @@ export const getDb = () => {
   return _db
 }
 
+function adminPasswordFromEnv() {
+  return process.env.ADMIN_PASSWORD?.trim() || null
+}
+
+/** Hash stored in DB; syncs from ADMIN_PASSWORD on every boot when that env var is set. */
+async function ensureAdminRow() {
+  const envPassword = adminPasswordFromEnv()
+  const password = envPassword || 'success2025'
+  const hash = bcrypt.hashSync(password, 12)
+
+  if (usePostgres) {
+    const pool = getPool()
+    const { rowCount } = await pool.query('SELECT 1 FROM admin WHERE id = 1')
+    if (rowCount === 0) {
+      await pool.query('INSERT INTO admin (id, password_hash) VALUES (1, $1)', [hash])
+      if (!envPassword) {
+        console.warn('⚠ ADMIN_PASSWORD not set — admin login uses default password (success2025)')
+      }
+      return
+    }
+    if (envPassword) {
+      await pool.query(
+        'UPDATE admin SET password_hash = $1, updated_at = now() WHERE id = 1',
+        [hash]
+      )
+    }
+    return
+  }
+
+  const hasAdmin = getDb().prepare('SELECT id FROM admin WHERE id = 1').get()
+  if (!hasAdmin) {
+    getDb().prepare('INSERT INTO admin (id, password_hash) VALUES (1, ?)').run(hash)
+    if (!envPassword) {
+      console.warn('⚠ ADMIN_PASSWORD not set — admin login uses default password (success2025)')
+    }
+    return
+  }
+  if (envPassword) {
+    getDb().prepare(
+      'UPDATE admin SET password_hash = ?, updated_at = datetime(\'now\') WHERE id = 1'
+    ).run(hash)
+  }
+}
+
 async function initPostgres() {
   const pool = getPool()
 
@@ -87,13 +132,9 @@ async function initPostgres() {
     `, [section, JSON.stringify(data)])
   }
 
-  const { rowCount } = await pool.query('SELECT 1 FROM admin LIMIT 1')
-  if (rowCount === 0) {
-    const hash = bcrypt.hashSync(process.env.ADMIN_PASSWORD || 'success2025', 12)
-    await pool.query('INSERT INTO admin (id, password_hash) VALUES (1, $1)', [hash])
-  }
+  await ensureAdminRow()
 
-  console.log('✓ Database ready (PostgreSQL)')
+  logger.info('Database ready', { engine: 'PostgreSQL' })
 }
 
 async function initSqlite() {
@@ -124,13 +165,9 @@ async function initSqlite() {
     insert.run(section, JSON.stringify(data))
   }
 
-  const hasAdmin = _db.prepare('SELECT id FROM admin LIMIT 1').get()
-  if (!hasAdmin) {
-    const hash = bcrypt.hashSync(process.env.ADMIN_PASSWORD || 'success2025', 12)
-    _db.prepare('INSERT INTO admin (id, password_hash) VALUES (1, ?)').run(hash)
-  }
+  await ensureAdminRow()
 
-  console.log(`✓ Database ready (SQLite at ${sqlitePath})`)
+  logger.info('Database ready', { engine: 'SQLite', path: sqlitePath })
 }
 
 export const initDb = async () => {

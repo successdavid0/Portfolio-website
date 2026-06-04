@@ -2,6 +2,7 @@ import { Router }  from 'express'
 import multer      from 'multer'
 import crypto      from 'crypto'
 import { requireAuth } from '../middleware/auth.js'
+import { logger } from '../logger.js'
 
 const router  = Router()
 const upload  = multer({
@@ -23,6 +24,7 @@ router.post('/', requireAuth, upload.single('image'), async (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'No image file provided' })
 
   if (!cloudinaryConfigured()) {
+    logger.warn('Upload attempted but Cloudinary not configured')
     return res.status(503).json({
       error: 'Image hosting not configured. Add CLOUDINARY_* env vars.',
     })
@@ -52,6 +54,7 @@ router.post('/', requireAuth, upload.single('image'), async (req, res) => {
       throw new Error(result.error?.message || 'Cloudinary upload failed')
     }
 
+    logger.info('Image uploaded', { file: req.file.originalname, size: req.file.size, publicId: result.public_id })
     res.json({
       url:       result.secure_url,
       publicId:  result.public_id,
@@ -59,7 +62,7 @@ router.post('/', requireAuth, upload.single('image'), async (req, res) => {
       height:    result.height,
     })
   } catch (err) {
-    console.error('Upload error:', err)
+    logger.error('Upload failed', { error: err.message, file: req.file?.originalname })
     res.status(500).json({ error: err.message || 'Upload failed' })
   }
 })
